@@ -1,68 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mobile Friendly Sliders</title>
-<style>
-  body, html {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: Arial, sans-serif;
-  }
-  .slider-container {
-    width: 90%; /* Use most of the screen while leaving margins */
-    margin: 10px;
-    padding: 10px;
-  }
-  .slider-label {
-    margin-bottom: 5px;
-    font-size: 16px;
-  }
-  .slider {
-    -webkit-appearance: none; /* Override default look */
-    appearance: none;
-    width: 100%; /* Slider takes full width of the container */
-    height: 44px; /* Height enough for finger adjustments */
-    background: #ddd;
-    outline: none;
-    opacity: 0.7;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
-  }
-  .slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 44px; /* Set a large width for the slider handle */
-    height: 44px; /* Set a large height for the slider handle */
-    background: #4CAF50;
-    cursor: pointer; /* Add a pointer on hover */
-    border-radius: 50%; /* Optional: if you want round thumbs */
-  }
-  .slider::-moz-range-thumb {
-    width: 44px; /* Set a large width for the slider handle */
-    height: 44px; /* Set a large height for the slamobile friendly slidersder handle */
-    background: #4CAF50;
-    cursor: pointer; /* Add a pointer on hover */
-    border-radius: 50%; /* Optional: if you want round thumbs */
-  }
-</style>
-</head>
-<body>
-  <div class="slider-container">
-    <label for="slider-1" class="slider-label">Adjust Slider 1:</label>
-    <input type="range" min="0" max="100" value="50" class="slider" id="slider-1">
-  </div>
-
-  <div class="slider-container">
-    <label for="slider-2" class="slider-label">Adjust Slider 2:</label>
-    <input type="range" min="0" max="100" value="50" class="slider" id="slider-2">
-  </div>
-</body>
+<html ng-app="custom-webapp-ui" lang="en">
+    <head>
+        <script src="https://telegram.org/js/telegram-web-app.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+        <script>
+            angular.module("custom-webapp-ui", []).controller('CustomUIController', function CustomUIController($scope) {
+            
+            $scope.settings = [
+                    { name: "Мат", value: 5 },
+                    { name: "Политика", value: 5 },
+                    { name: "Сарказм", value: 5 },
+                    { name: "Что-то еще", value: 5 }
+                ];
+            
+            const mainButton = window.Telegram.WebApp.MainButton;
+            mainButton.text = "Сохранить";
+            mainButton.enable();
+            mainButton.show();  // and make it send the "settings" object (as JSON string) back to the backend
+            mainButton.onClick(function(){
+                window.Telegram.WebApp.sendData(JSON.stringify($scope.settings));
+            })
+            });
+        </script>
+    </head>
+    <body ng-controller="CustomUIController">
+        <div ng-repeat="setting in settings">
+        <div style="width: 100px; display: inline-block">{{setting.name}} : {{setting.value}}</div>
+        <input style="width: 100%; max-width: 300px; display: block; margin: auto;" type="range" min="1" max="10" ng-model="setting.value" value="{{setting.value}}">
+        </div>
+    </body>
 </html>
