@@ -16,14 +16,14 @@
             mainButton.show();  // and make it send the "settings" object (as JSON string) back to the backend
             mainButton.onClick(function(){
                 window.Telegram.WebApp.sendData(JSON.stringify($scope.settings));
-
+            });
             const secondaryButton = window.Telegram.WebApp.MainButton;
             secondaryButton.text = "Закрыть";
             secondaryButton.enable();
             secondaryButton.show();  // and make it send the "settings" object (as JSON string) back to the backend
             secondaryButton.onClick(function(){
                 window.Telegram.WebApp.close();
-            })
+            });
             });
         </script>
         <style>
